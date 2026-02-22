@@ -4,7 +4,7 @@ This document outlines the professional division of tasks to ensure a balanced w
 
 ---
 
-## Team 1: Data & Notebook (Foundation)
+## Task 1: Data & Notebook (Foundation)
 **Mission:** Clean the dataset, engineer features, generate exploratory plots, and write analytical insights in a polished Jupyter Notebook.
 
 | Team Member | Role | Key Responsibilities | Status |
@@ -15,7 +15,7 @@ This document outlines the professional division of tasks to ensure a balanced w
 
 ---
 
-## Team 2: Interactive Dashboard (Visualization)
+## Task 2: Interactive Dashboard (Visualization)
 **Mission:** Convert analytical findings into a dynamic, interactive web dashboard using Dash with Plotly.
 
 | Team Member | Role | Key Responsibilities | Status |
