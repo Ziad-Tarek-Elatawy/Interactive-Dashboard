@@ -121,13 +121,6 @@ for i, col in enumerate(num_cols):
 plt.tight_layout()
 plt.show()
 
-
-# ==============================
-# Log Transformation (Reduce Skewness)
-# ==============================
-df['duration_sec'] = np.log1p(df['duration_sec'])
-
-
 # ==============================
 # Feature Engineering - Create Age
 # ==============================
@@ -215,5 +208,32 @@ df.head()
 import os
 if not os.path.exists('data/processed'):
     os.makedirs('data/processed')
+
+df.to_csv("data/processed/cleaned_fordgobike_data.csv", index=False)
+
+#--------------------------------------------------------------------------------------------------------
+#Feature Engineering & EDA Coding
+#Create new columns (Duration mins, Age groups)
+
+df = pd.read_csv("data/processed/cleaned_fordgobike_data.csv")
+
+df["duration_mins"] = (df["duration_sec"] / 60).round()
+df.drop(columns = ['duration_sec'], inplace= True)
+
+bins = [14, 24, 34, 44, 54, 64, 80]
+labels = ["15-24", "25-34", "35-44", "45-54", "55-64", "65-80"]
+df["age_group"] = pd.cut(df["age"], bins=bins, labels=labels)
+
+#---------------------------------------------------------------------------
+#Encode/Scale categorical data
+
+from sklearn.preprocessing import LabelEncoder, StandardScaler
+
+Encoder = LabelEncoder()
+df["member_gender_encoded"] = Encoder.fit_transform(df["member_gender"])
+df["user_type_encoded"] = Encoder.fit_transform(df["user_type"])
+
+Scaler = StandardScaler()
+df[["duration_mins_scaled", "age_scaled"]] = Scaler.fit_transform(df[["duration_mins", "age"]])
 
 df.to_csv("data/processed/cleaned_fordgobike_data.csv", index=False)
