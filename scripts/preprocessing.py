@@ -32,10 +32,19 @@ df.describe().T  # Statistical summary for numerical columns
 
 
 # ==============================
-# Drop Unnecessary Columns
+# Feature Engineering - Time & Weekend Flag
 # ==============================
-df.drop(['start_time', 'end_time'], axis=1, inplace=True)
+# errors='coerce' converts any malformed timestamps to NaT instead of crashing
+df['start_time'] = pd.to_datetime(df['start_time'], errors='coerce')
+df['end_time'] = pd.to_datetime(df['end_time'], errors='coerce')
 
+# Drop rows where timestamp couldn't be parsed
+df.dropna(subset=['start_time', 'end_time'], inplace=True)
+
+# Create weekend flag (1 = Saturday/Sunday, 0 = weekday)
+df['weekend_flag'] = df['start_time'].dt.dayofweek.isin([5, 6]).astype(int)
+
+# We keep start_time and end_time because the dashboard needs them for time series analysis!
 
 # ==============================
 # Handle Missing Values

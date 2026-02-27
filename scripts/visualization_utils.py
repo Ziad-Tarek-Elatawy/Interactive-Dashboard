@@ -3,7 +3,7 @@ import seaborn as sns
 import pandas as pd
 import numpy as np
 
-df = pd.read_csv("data/processed/cleaned_fordgobike_data.csv")
+# Data loading is moved to the __main__ block at the bottom to allow safe importing.
 
 #Univariate Plotting Functions
 def duration_distribution(ax, df):
@@ -42,7 +42,23 @@ def duration_by_gender(ax, df):
     sns.barplot(x="member_gender", y="duration_mins", data=df, ax=ax)
     ax.set_title("Trip Duration by Gender", fontsize = 10)
 
+def user_type_distribution(ax, df):
+    user_counts = df["user_type"].value_counts()
+    ax.bar(user_counts.index.astype(str), user_counts.values)
+    ax.set_title("User Type Distribution", fontsize=10)
+    ax.set_xlabel("User Type")
+    ax.set_ylabel("Count")
+
+def numerical_boxplots(df):
+    num_cols = df.select_dtypes(include=["int64", "float64"]).columns
+    for col in num_cols:
+        fig, ax = plt.subplots()
+        ax.boxplot(df[col], vert=False)
+        ax.set_title(f"Boxplot of {col}")
+        plt.show()
+
 def run_all_plots(df):
+
     fig, axes = plt.subplots(3, 3, figsize=(18, 15))
     fig.suptitle("EDA", fontsize=10)
 
@@ -60,4 +76,9 @@ def run_all_plots(df):
     plt.tight_layout(pad=4.0, h_pad=5.0, w_pad=4.0)  # more padding between subplots
     plt.show()
 
-run_all_plots(df)
+if __name__ == "__main__":
+    import os
+    # Load data for testing the plots directly
+    data_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'processed', 'cleaned_fordgobike_data.csv')
+    test_df = pd.read_csv(data_path)
+    run_all_plots(test_df)
