@@ -81,4 +81,3 @@ if __name__ == "__main__":
     # Load data for testing the plots directly
     data_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'processed', 'cleaned_fordgobike_data.csv')
     test_df = pd.read_csv(data_path)
-    run_all_plots(test_df)
