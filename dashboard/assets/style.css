@@ -1,0 +1,84 @@
+/* ==========================================================================
+   Dashboard Global Styles & Layout Variables
+   Author: UI/UX Designer
+   ========================================================================== */
+
+/* * Global Body Styling:
+ * Sets the main background color, default font family, and removes default browser margins 
+ * to ensure a clean, edge-to-edge layout.
+ */
+body {
+    background-color: #f4f6f9;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+}
+
+/* ==========================================================================
+   Sidebar & Layout Structure
+   ========================================================================== */
+
+/* * Sidebar Layout:
+ * Fixed position on the left side of the screen. 
+ * Includes a dark professional background, scrollability for overflow content, 
+ * and specific width dimensions.
+ */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 18rem;
+    padding: 2rem 1rem;
+    background-color: #2c3e50;
+    color: white;
+    overflow-y: auto; 
+}
+
+/* * Main Content Area Layout:
+ * The margin-left is strictly set to be larger than the sidebar's width (19rem > 18rem).
+ * This prevents the main content and charts from hiding behind the fixed sidebar.
+ */
+.content {
+    margin-left: 19rem;
+    margin-right: 1rem;
+    padding: 2rem 1rem;
+}
+
+/* ==========================================================================
+   UI Components (Cards & Typography)
+   ========================================================================== */
+
+/* * Custom Card Container:
+ * A reusable wrapper used for both KPI boxes and Chart placeholders.
+ * Features a soft drop-shadow, rounded corners, and clean white background 
+ * for a modern, flat-design look.
+ */
+.card-custom {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+    border: none;
+}
+
+/* * KPI Title Text:
+ * Styling for the descriptive text above the KPI numbers. 
+ * Uses uppercase styling and letter-spacing for a sophisticated aesthetic.
+ */
+.kpi-title {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* * KPI Value Text:
+ * Styling for the primary numerical values inside the KPI cards.
+ * Uses a large, bold font weight to immediately draw the user's attention.
+ */
+.kpi-value {
+    color: #2c3e50;
+    font-size: 2rem;
+    font-weight: bold;
+}
