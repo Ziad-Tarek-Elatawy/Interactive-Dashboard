@@ -53,6 +53,10 @@ app.layout = html.Div(
     ]
 )
 
+# Import callbacks to activate dashboard interactivity
+import callbacks
+
+
 # ==========================================================================
 # Server Execution
 # ==========================================================================
