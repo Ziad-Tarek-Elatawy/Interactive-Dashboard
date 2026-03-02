@@ -1,18 +1,42 @@
 from dash import html, dcc
 
+
 def create_sidebar():
     """
-    Horizontal Top Filter Bar with 5 filters:
-    User Type, Gender, Age Group, Weekday, Hour of Day
+    Vertical Sidebar with brand logo, navigation feel, and stacked filters.
+    Vibrant gradient design with smooth spacing.
     """
+
+    # Inline style for dropdown control — guarantees dark text on white bg
+    dd_style = {
+        'backgroundColor': '#ffffff',
+        'borderRadius': '10px',
+        'border': 'none',
+        'boxShadow': '0 2px 8px rgba(0,0,0,0.12)',
+        'color': '#1e293b',
+        'fontSize': '0.88rem',
+        'fontWeight': '500',
+    }
+
     return html.Div(
         [
-            # Brand
-            html.Div("🚲 Ford GoBike", className="topbar-brand", style={"flex": "0 0 auto"}),
+            # ── Brand Section ──────────────────────────────────────────────
+            html.Div([
+                html.Div("🚲", className="sidebar-logo-icon"),
+                html.Div([
+                    html.Div("Ford GoBike", className="sidebar-brand-name"),
+                    html.Div("Analytics Dashboard", className="sidebar-brand-sub"),
+                ]),
+            ], className="sidebar-brand"),
+
+            html.Div(className="sidebar-divider"),
+
+            # ── Filters Section ────────────────────────────────────────────
+            html.Div("FILTERS", className="sidebar-section-label"),
 
             # Filter 1: User Type
             html.Div([
-                html.Label("User Type"),
+                html.Label("User Type", className="sidebar-filter-label"),
                 dcc.Dropdown(
                     id='user-type-filter',
                     options=[
@@ -21,13 +45,13 @@ def create_sidebar():
                         {'label': 'Customer',   'value': 'Customer'},
                     ],
                     value='All', clearable=False,
-                    style={'width': '130px', 'fontSize': '0.95rem'}
+                    style=dd_style,
                 ),
-            ], className="filter-group", style={"flex": "1"}),
+            ], className="sidebar-filter-group"),
 
             # Filter 2: Gender
             html.Div([
-                html.Label("Gender"),
+                html.Label("Gender", className="sidebar-filter-label"),
                 dcc.Dropdown(
                     id='gender-filter',
                     options=[
@@ -37,13 +61,13 @@ def create_sidebar():
                         {'label': 'Other',  'value': 'Other'},
                     ],
                     value='All', clearable=False,
-                    style={'width': '120px', 'fontSize': '0.95rem'}
+                    style=dd_style,
                 ),
-            ], className="filter-group", style={"flex": "1"}),
+            ], className="sidebar-filter-group"),
 
             # Filter 3: Age Group
             html.Div([
-                html.Label("Age Group"),
+                html.Label("Age Group", className="sidebar-filter-label"),
                 dcc.Dropdown(
                     id='age-group-filter',
                     options=[
@@ -55,21 +79,28 @@ def create_sidebar():
                         {'label': '65-80', 'value': '65-80'},
                     ],
                     value='All', clearable=False,
-                    style={'width': '120px', 'fontSize': '0.95rem'}
+                    style=dd_style,
                 ),
-            ], className="filter-group", style={"flex": "1"}),
+            ], className="sidebar-filter-group"),
 
             # Filter 4: Hour of Day
             html.Div([
-                html.Label("Hour of Day"),
+                html.Label("Hour of Day", className="sidebar-filter-label"),
                 dcc.RangeSlider(
                     id='hour-slider',
                     min=0, max=23, step=1,
-                    marks={i: f'{i}h' for i in range(0, 24, 6)},
+                    marks={0: '0h', 6: '6h', 12: '12h', 18: '18h', 23: '23h'},
                     value=[0, 23],
-                    tooltip={"placement": "bottom", "always_visible": False}
                 ),
-            ], className="filter-group-slider", style={"flex": "2"}),
+            ], className="sidebar-filter-group sidebar-slider-group"),
+
+            # ── Spacer ─────────────────────────────────────────────────────
+            html.Div(style={"flex": "1"}),
+
+            # ── Footer ─────────────────────────────────────────────────────
+            html.Div([
+                html.Div("📊 Real-time Analytics", className="sidebar-footer-text"),
+            ], className="sidebar-footer"),
         ],
-        className="topbar"
+        className="sidebar"
     )

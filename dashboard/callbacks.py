@@ -1,8 +1,9 @@
 import os
-import pandas as pd
-import plotly.graph_objects as go
-from plotly.subplots import make_subplots
-from dash import Input, Output, callback
+import os
+import pandas as pd  # type: ignore
+import plotly.graph_objects as go  # type: ignore
+from plotly.subplots import make_subplots  # type: ignore
+from dash import Input, Output, callback  # type: ignore
 
 # ── Elegant Palette ───────────────────────────────────────────────────────────
 P = {
@@ -57,25 +58,25 @@ def update_dashboard(sel_user, sel_gender, sel_age, sel_hour):
         fdf = fdf[(fdf['start_hour'] >= sel_hour[0]) & (fdf['start_hour'] <= sel_hour[1])]
 
     # ── Shared layout: clean, minimal, no clutter ─────────────────────────────
-    LY = dict(
-        paper_bgcolor='rgba(0,0,0,0)',
-        plot_bgcolor='rgba(0,0,0,0)',
-        font=dict(family='Inter, sans-serif', color=P['slate'], size=10),
-        margin=dict(l=35, r=15, t=30, b=30),
-    )
-    AXIS = dict(
-        showgrid=True,
-        gridcolor=P['grid'],
-        gridwidth=1,
-        zeroline=False,
-        showline=False,
-    )
+    LY = {
+        'paper_bgcolor': 'rgba(0,0,0,0)',
+        'plot_bgcolor': 'rgba(0,0,0,0)',
+        'font': {'family': 'Inter, sans-serif', 'color': P['slate'], 'size': 14},
+        'margin': {'l': 35, 'r': 15, 't': 30, 'b': 50}, # increased bottom margin for dots
+    }
+    AXIS = {
+        'showgrid': True,
+        'gridcolor': P['grid'],
+        'gridwidth': 1,
+        'zeroline': False,
+        'showline': False,
+    }
 
     # ── Empty state ───────────────────────────────────────────────────────────
     if fdf.empty:
         empty = go.Figure()
         empty.update_layout(
-            title=dict(text="No data matches filters", font=dict(size=11, color=P['slate'])),
+            title={'text': "No data matches filters", 'font': {'size': 16, 'color': P['slate']}},
             **LY
         )
         return "0", "–", "0%", "0", empty, empty, empty
@@ -83,7 +84,7 @@ def update_dashboard(sel_user, sel_gender, sel_age, sel_hour):
     # ── KPIs ──────────────────────────────────────────────────────────────────
     total    = f"{len(fdf):,}"
     avg_dur  = f"{fdf['duration_mins'].mean():.1f} min" if 'duration_mins' in fdf.columns else "–"
-    subs     = f"{(fdf['user_type']=='Subscriber').mean()*100:.1f}%"
+    subs     = f"{(fdf['user_type'] == 'Subscriber').mean() * 100:.1f}%"  # type: ignore
     stations = f"{fdf['start_station_name'].nunique():,}" if 'start_station_name' in fdf.columns else "–"
 
     # ══════════════════════════════════════════════════════════════════════════
@@ -101,7 +102,7 @@ def update_dashboard(sel_user, sel_gender, sel_age, sel_hour):
 
     fig_time.add_trace(go.Bar(
         x=WDAY_SHORT, y=wd['trips'],
-        marker=dict(color=bar_colors, cornerradius=4),
+        marker={'color': bar_colors, 'cornerradius': 4},
         hovertemplate='%{x}: <b>%{y:,}</b><extra></extra>',
         showlegend=False,
     ), row=1, col=1)
@@ -110,7 +111,7 @@ def update_dashboard(sel_user, sel_gender, sel_age, sel_hour):
     fig_time.add_trace(go.Scatter(
         x=hr['start_hour'], y=hr['trips'],
         mode='lines',
-        line=dict(color=P['cyan'], width=2.5, shape='spline'),
+        line={'color': P['cyan'], 'width': 2.5, 'shape': 'spline'},
         fill='tozeroy',
         fillcolor='rgba(6,182,212,0.08)',
         hovertemplate='%{x}:00 → <b>%{y:,}</b><extra></extra>',
@@ -120,7 +121,7 @@ def update_dashboard(sel_user, sel_gender, sel_age, sel_hour):
     fig_time.update_layout(**LY, showlegend=False)
     fig_time.update_xaxes(**AXIS)
     fig_time.update_yaxes(**AXIS)
-    fig_time.update_annotations(font=dict(size=10, color=P['slate'], family='Inter'))
+    fig_time.update_annotations(font={'size': 14, 'color': P['slate'], 'family': 'Inter'})
 
     # ══════════════════════════════════════════════════════════════════════════
     # CHART 2 – User Analysis (Donut + Gender bar, side by side)
@@ -134,14 +135,16 @@ def update_dashboard(sel_user, sel_gender, sel_age, sel_hour):
     )
 
     uc = fdf['user_type'].value_counts()
+    donut_colors = [P['indigo'], P['cyan']]
     fig_user.add_trace(go.Pie(
         labels=uc.index, values=uc.values,
-        hole=0.55,
-        marker=dict(colors=[P['indigo'], P['cyan']], line=dict(width=0)),
-        textinfo='percent+label',
-        textfont=dict(size=9, color='#ffffff'),
+        hole=0.62,
+        marker={'colors': donut_colors, 'line': {'width': 0}},
+        textinfo='percent',
+        textfont={'size': 14, 'color': '#ffffff'},
         insidetextorientation='horizontal',
         hovertemplate='<b>%{label}</b><br>%{value:,} (%{percent})<extra></extra>',
+        showlegend=False,
     ), row=1, col=1)
 
     gc = fdf['member_gender'].value_counts().reset_index()
@@ -149,18 +152,37 @@ def update_dashboard(sel_user, sel_gender, sel_age, sel_hour):
     gender_colors = {'Male': P['indigo'], 'Female': P['pink'], 'Other': P['amber']}
     fig_user.add_trace(go.Bar(
         x=gc['gender'], y=gc['count'],
-        marker=dict(
-            color=[gender_colors.get(g, P['emerald']) for g in gc['gender']],
-            cornerradius=4
-        ),
+        marker={
+            'color': [gender_colors.get(g, P['emerald']) for g in gc['gender']],
+            'cornerradius': 4
+        },
+        width=0.35,
         hovertemplate='<b>%{x}</b>: %{y:,}<extra></extra>',
         showlegend=False,
     ), row=1, col=2)
 
-    fig_user.update_layout(**LY, showlegend=False)
+    # Build legend-dot annotations below the donut
+    legend_annotations = []
+    # Center them vertically and spread them out horizontally to avoid overlap
+    for i, (lbl, clr) in enumerate(zip(uc.index, donut_colors)):
+        x_pos = 0.03 + i * 0.22  # Shifted left slightly more
+        legend_annotations.append({
+            'x': x_pos, 'y': -0.16, 'xref': 'paper', 'yref': 'paper',
+            'text': f'<span style="font-size: 16px;">●</span> {lbl}',
+            'showarrow': False,
+            'font': {'size': 16, 'color': clr, 'family': 'Inter'},
+        })
+
+    fig_user.update_layout(**LY, showlegend=False, annotations=[
+        *fig_user.layout.annotations,
+        *legend_annotations,
+    ])
     fig_user.update_xaxes(**AXIS)
     fig_user.update_yaxes(**AXIS)
-    fig_user.update_annotations(font=dict(size=10, color=P['slate'], family='Inter'))
+    # Style only the subplot title annotations (first two)
+    for i, ann in enumerate(fig_user.layout.annotations):
+        if i < 2:
+            ann.font = {'size': 14, 'color': P['slate'], 'family': 'Inter'}
 
     # ══════════════════════════════════════════════════════════════════════════
     # CHART 3 – Station Analysis (Top 8 horizontal bar)
@@ -172,16 +194,16 @@ def update_dashboard(sel_user, sel_gender, sel_age, sel_hour):
     fig_station = go.Figure(go.Bar(
         x=ts['trips'], y=ts['short'],
         orientation='h',
-        marker=dict(
-            color=ts['trips'],
-            colorscale=[[0, '#e0e7ff'], [1, P['indigo']]],
-            cornerradius=4,
-            line=dict(width=0),
-        ),
+        marker={
+            'color': ts['trips'],
+            'colorscale': [[0, '#e0e7ff'], [1, P['indigo']]],
+            'cornerradius': 4,
+            'line': {'width': 0},
+        },
         hovertemplate='<b>%{y}</b><br>Trips: %{x:,}<extra></extra>',
     ))
     fig_station.update_layout(
-        yaxis=dict(categoryorder='total ascending', tickfont=dict(size=9)),
+        yaxis={'categoryorder': 'total ascending', 'tickfont': {'size': 13}},
         **LY
     )
     fig_station.update_xaxes(**AXIS)

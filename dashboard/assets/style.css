@@ -1,8 +1,8 @@
 /* ==========================================================================
-   Ford GoBike Dashboard – Premium Polish
+   Ford GoBike Dashboard – Premium Sidebar Layout
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 *,
 *::before,
@@ -12,7 +12,7 @@
 
 body {
     margin: 0;
-    background: #f4f6fa;
+    background: #f1f5f9;
     font-family: 'Inter', 'Segoe UI', sans-serif;
     height: 100vh;
     overflow: hidden;
@@ -20,119 +20,334 @@ body {
 }
 
 /* ==========================================================================
-   Top Filter Bar – Refined
+   Dashboard Wrapper – Sidebar + Content
    ========================================================================== */
-.topbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    height: 60px;
+.dashboard-wrapper {
     display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 0 1.8rem;
-    background: #ffffff;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-}
-
-.topbar-brand {
-    color: #0f172a;
-    font-size: 1.15rem;
-    font-weight: 700;
-    white-space: nowrap;
-    padding-right: 1.2rem;
-    border-right: 1.5px solid #e8ecf2;
-    margin-right: 0.3rem;
-    letter-spacing: -0.2px;
-}
-
-.filter-group {
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-    white-space: nowrap;
-}
-
-.filter-group label,
-.filter-group-slider label {
-    color: #64748b;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.filter-group-slider {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    flex: 2;
-    min-width: 160px;
-    max-width: 260px;
-}
-
-/* Slider */
-.rc-slider-mark-text {
-    color: #64748b !important;
-    font-size: 0.75rem !important;
-    font-weight: 500 !important;
-}
-
-.rc-slider-track {
-    background-color: #6366f1 !important;
-    height: 3px !important;
-}
-
-.rc-slider-handle {
-    border-color: #6366f1 !important;
-    background: #fff !important;
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15) !important;
-    width: 16px !important;
-    height: 16px !important;
-    margin-top: -7px !important;
-}
-
-.rc-slider-rail {
-    background-color: #e8ecf2 !important;
-    height: 3px !important;
-}
-
-/* ==========================================================================
-   Content
-   ========================================================================== */
-.content {
-    margin-top: 60px;
-    padding: 0.7rem 1.2rem;
-    height: calc(100vh - 60px);
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
+    height: 100vh;
     overflow: hidden;
 }
 
 /* ==========================================================================
-   Cards – Ultra-soft design
+   Sidebar – Vibrant Gradient Design
+   ========================================================================== */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 260px;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    padding: 1.8rem 1.4rem;
+    background: linear-gradient(160deg, #4f46e5 0%, #3b82f6 55%, #06b6d4 100%);
+    box-shadow: 4px 0 30px rgba(79, 70, 229, 0.25);
+    color: #ffffff;
+    /* IMPORTANT: do NOT use overflow:auto/hidden here - it clips dropdown menus */
+    overflow: visible;
+}
+
+/* Scrollbar */
+.sidebar::-webkit-scrollbar {
+    width: 4px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 4px;
+}
+
+/* ── Brand ──────────────────────────────────────────────────────────────── */
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding-bottom: 1.5rem;
+    cursor: default;
+}
+
+.sidebar-logo-icon {
+    font-size: 1.4rem;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    flex-shrink: 0;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.sidebar-brand:hover .sidebar-logo-icon {
+    background: rgba(255, 255, 255, 0.32);
+    transform: scale(1.08) rotate(8deg);
+}
+
+.sidebar-brand-name {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.3px;
+    line-height: 1.2;
+}
+
+.sidebar-brand-sub {
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.75);
+    font-weight: 500;
+    margin-top: 2px;
+}
+
+/* ── Divider ────────────────────────────────────────────────────────────── */
+.sidebar-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    margin-bottom: 1.4rem;
+}
+
+/* ── Section Label ──────────────────────────────────────────────────────── */
+.sidebar-section-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.65);
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    margin-bottom: 1rem;
+    padding-left: 2px;
+}
+
+/* ── Filter Groups ──────────────────────────────────────────────────────── */
+.sidebar-filter-group {
+    margin-bottom: 1.3rem;
+}
+
+.sidebar-filter-label {
+    display: block;
+    font-size: 0.79rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.92);
+    margin-bottom: 7px;
+    padding-left: 2px;
+    letter-spacing: 0.2px;
+}
+
+/* ── Dropdown overrides inside sidebar ─────────────────────────────────── */
+
+/* Control box - white rounded pill on gradient */
+.sidebar .Select-control,
+.sidebar .dash-dropdown .Select-control {
+    background: #ffffff !important;
+    border: none !important;
+    border-radius: 10px !important;
+    min-height: 38px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12) !important;
+    transition: box-shadow 0.2s ease !important;
+    cursor: pointer !important;
+}
+
+.sidebar .Select-control:hover,
+.sidebar .dash-dropdown .Select-control:hover {
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18) !important;
+}
+
+/* Selected value & placeholder text - DARK on white */
+.sidebar .Select-value .Select-value-label,
+.sidebar .Select-value-label,
+.sidebar .Select-placeholder,
+.sidebar .Select--single>.Select-control .Select-value,
+.sidebar .Select--single>.Select-control .Select-value .Select-value-label {
+    color: #1e293b !important;
+    font-size: 0.88rem !important;
+    font-weight: 500 !important;
+    line-height: 36px !important;
+}
+
+/* Dark arrow */
+.sidebar .Select-arrow {
+    border-top-color: #64748b !important;
+}
+
+.sidebar .Select.is-open .Select-control,
+.sidebar .Select.is-focused .Select-control {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3), 0 2px 8px rgba(0, 0, 0, 0.12) !important;
+    outline: none !important;
+}
+
+.sidebar .Select.is-open .Select-arrow {
+    border-bottom-color: #64748b !important;
+    border-top-color: transparent !important;
+}
+
+/* The open list */
+.sidebar .Select-menu-outer,
+.sidebar .dash-dropdown .Select-menu-outer {
+    background: #ffffff !important;
+    border: none !important;
+    border-radius: 10px !important;
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.25) !important;
+    margin-top: 5px !important;
+    z-index: 9999 !important;
+    overflow: hidden !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+}
+
+.sidebar .Select-menu {
+    max-height: 160px !important;
+    overflow-y: auto !important;
+}
+
+.sidebar .VirtualizedSelectOption,
+.sidebar .Select-option {
+    color: #1e293b !important;
+    font-size: 0.88rem !important;
+    padding: 9px 14px !important;
+    font-weight: 500 !important;
+    transition: background 0.15s ease !important;
+}
+
+.sidebar .VirtualizedSelectOption:hover,
+.sidebar .Select-option:hover {
+    background: #eff6ff !important;
+    color: #3b82f6 !important;
+}
+
+.sidebar .VirtualizedSelectFocusedOption,
+.sidebar .Select-option.is-focused {
+    background: #dbeafe !important;
+    color: #1d4ed8 !important;
+}
+
+/* Search input inside dropdown */
+.sidebar .Select-input input {
+    font-size: 0.88rem !important;
+    color: #1e293b !important;
+}
+
+.sidebar .Select-search-box-input {
+    font-size: 0.85rem !important;
+    color: #1e293b !important;
+    background: transparent !important;
+}
+
+/* ── Slider ─────────────────────────────────────────────────────────────── */
+.sidebar-slider-group {
+    padding: 0 6px;
+    margin-top: 4px;
+}
+
+.sidebar .rc-slider .rc-slider-rail,
+.sidebar .rc-slider-rail,
+.sidebar .dash-slider .dash-slider-rail,
+.sidebar [class*="dash-slider-rail"] {
+    background-color: rgba(255, 255, 255, 0.22) !important;
+    height: 4px !important;
+    border-radius: 4px !important;
+}
+
+.sidebar .rc-slider .rc-slider-track,
+.sidebar .rc-slider-track,
+.sidebar .rc-slider-track-1,
+.sidebar .rc-slider-track-2,
+.sidebar [class*="rc-slider-track"],
+.sidebar .dash-slider .dash-slider-track,
+.sidebar [class*="dash-slider-track"] {
+    background-color: #06b6d4 !important;
+    background: #06b6d4 !important;
+    height: 4px !important;
+    border-radius: 4px !important;
+}
+
+.sidebar .rc-slider .rc-slider-handle,
+.sidebar .rc-slider-handle,
+.sidebar .rc-slider-handle-1,
+.sidebar .rc-slider-handle-2,
+.sidebar [class*="rc-slider-handle"],
+.sidebar .dash-slider .dash-slider-thumb,
+.sidebar [class*="dash-slider-thumb"] {
+    width: 18px !important;
+    height: 18px !important;
+    margin-top: -7px !important;
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    border: 2.5px solid #06b6d4 !important;
+    box-shadow: 0 2px 8px rgba(6, 182, 212, 0.4) !important;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.2s !important;
+    opacity: 1 !important;
+}
+
+.sidebar .rc-slider-handle:hover,
+.sidebar .rc-slider-handle:active,
+.sidebar [class*="rc-slider-handle"]:hover,
+.sidebar [class*="rc-slider-handle"]:active,
+.sidebar [class*="dash-slider-thumb"]:hover,
+.sidebar [class*="dash-slider-thumb"]:active {
+    transform: scale(1.2) !important;
+    border-color: #22d3ee !important;
+    box-shadow: 0 0 0 6px rgba(6, 182, 212, 0.15) !important;
+}
+
+.sidebar .rc-slider-mark-text {
+    color: rgba(255, 255, 255, 0.82) !important;
+    font-size: 0.68rem !important;
+    font-weight: 600 !important;
+    margin-top: 4px !important;
+}
+
+/* ── Footer ─────────────────────────────────────────────────────────────── */
+.sidebar-footer {
+    padding-top: 1.2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    margin-top: auto;
+}
+
+.sidebar-footer-text {
+    font-size: 0.73rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    font-weight: 500;
+}
+
+/* ==========================================================================
+   Content – Right of Sidebar
+   ========================================================================== */
+.content {
+    margin-left: 260px;
+    padding: 1.2rem 1.6rem;
+    height: 100vh;
+    width: calc(100% - 260px);
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    overflow: hidden;
+}
+
+/* ==========================================================================
+   Cards
    ========================================================================== */
 .card-custom {
     background: #ffffff;
     border-radius: 14px;
-    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.035),
-        0 0 1px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04), 0 0 1px rgba(0, 0, 0, 0.06);
     padding: 12px 16px;
     border: none;
     transition: box-shadow 0.25s ease, transform 0.25s ease;
 }
 
 .card-custom:hover {
-    box-shadow: 0 6px 28px rgba(0, 0, 0, 0.07),
-        0 0 1px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 6px 28px rgba(0, 0, 0, 0.07), 0 0 1px rgba(0, 0, 0, 0.08);
     transform: translateY(-1px);
 }
 
-/* ── KPI Row ─────────────────────────────────────────────────────────────── */
+/* ── KPI Row ────────────────────────────────────────────────────────────── */
 .kpi-row {
     display: flex;
     gap: 0.6rem;
@@ -145,7 +360,7 @@ body {
     overflow: hidden;
 }
 
-/* Colored accent stripe on top */
+/* Colored accent stripe on top of each KPI card */
 .kpi-row .card-custom::after {
     content: '';
     position: absolute;
@@ -169,18 +384,18 @@ body {
     background: linear-gradient(90deg, #ec4899, #f472b6);
 }
 
-/* ── Chart Rows ──────────────────────────────────────────────────────────── */
+/* ── Chart Rows ─────────────────────────────────────────────────────────── */
 .chart-top-row {
     display: flex;
     gap: 0.6rem;
-    flex: 3;
+    flex: 2;
     min-height: 0;
 }
 
 .chart-bottom-row {
     display: flex;
     gap: 0.6rem;
-    flex: 2;
+    flex: 3;
     min-height: 0;
 }
 
@@ -208,7 +423,7 @@ body {
     border-top: 1px solid #f1f5f9;
 }
 
-/* ── KPI Text ────────────────────────────────────────────────────────────── */
+/* ── KPI Text ───────────────────────────────────────────────────────────── */
 .kpi-title {
     color: #64748b;
     font-size: 0.75rem;

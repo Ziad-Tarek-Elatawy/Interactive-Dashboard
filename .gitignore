@@ -24,3 +24,6 @@ venv.bak/
 # OS hidden files
 .DS_Store
 Thumbs.db
+
+# Description files
+description/

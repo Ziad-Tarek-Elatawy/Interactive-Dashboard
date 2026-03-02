@@ -13,15 +13,15 @@ app = dash.Dash(__name__, suppress_callback_exceptions=True)
 app.title = "Ford GoBike Dashboard"
 
 app.layout = html.Div([
-    # ── Fixed top filter bar ───────────────────────────────────────────────
+    # ── Sidebar (left) ────────────────────────────────────────────────────
     create_sidebar(),
 
-    # ── Main content below the bar ─────────────────────────────────────────
+    # ── Main content (right of sidebar) ───────────────────────────────────
     html.Div([
         html.Div(create_kpi_cards(), className="kpi-row"),
         *create_charts(),
     ], className="content")
-])
+], className="dashboard-wrapper")
 
 import callbacks  # noqa: E402 – must be imported after app is defined
 
